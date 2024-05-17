@@ -25,7 +25,15 @@ fun processJson(jsonString: String) {
             println(responseJson)
             sendJsonToRedis(responseJson)
         }
-//        "select" -> {
+        "select" -> {
+            var responseJson: String
+            if (table.equals("device")){
+                responseJson = "{\"id\": 1, \"type\": \"teapot\"}"
+            } else {
+                responseJson = "[{\"id\": 1, \"type\": \"teapot\"}, {\"id\": 2, \"type\": \"water_sensor\"}]"
+            }
+            println(responseJson)
+            sendJsonToRedis(responseJson)
 //            val conditionsNode = jsonNode.get("conditions")
 //            val conditions = mutableMapOf<String, Any>()
 //
@@ -34,7 +42,7 @@ fun processJson(jsonString: String) {
 //            }
 //
 //            selectFromTable(table, conditions)
-//        }
+        }
         else -> {
             println("Unsupported action: $action")
         }
