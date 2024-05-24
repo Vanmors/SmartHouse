@@ -5,7 +5,7 @@ import io.lettuce.core.pubsub.RedisPubSubAdapter
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection
 import json.processJson
 
-const val alarmChannel = "DBChannel"
+const val alarmChannel = "requestDBChannel"
 fun startRedisListener() {
     val redisClient: RedisClient = RedisClient.create("redis://user:@localhost:6379/1")
     val pubSubConnection: StatefulRedisPubSubConnection<String, String> = redisClient.connectPubSub()
