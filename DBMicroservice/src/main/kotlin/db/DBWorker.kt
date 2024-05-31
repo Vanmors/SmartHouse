@@ -40,7 +40,7 @@ fun initDevices() {
     deviceRepository.create("room_lighting")
 }
 
-fun insertIntoTable(operationId: Long, table: String, values: Map<String, Any>): String {
+fun insertIntoTable(operationId: Long, table: String, values: Map<String, Any>, ): String {
     var jsonOutput: String? = null
     when (table) {
         "user" -> {
@@ -55,7 +55,7 @@ fun insertIntoTable(operationId: Long, table: String, values: Map<String, Any>):
                 val id = it[User.id].value
                 val userName = it[User.userName]
                 val password = it[User.password]
-                jsonOutput = "{\"req\": $id, \"username\": \"$userName\", \"password\": \"$password\"}"
+                jsonOutput = "{\"req\": $operationId, \"username\": \"$userName\", \"password\": \"$password\"}"
             }
 
         }
