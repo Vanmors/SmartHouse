@@ -75,9 +75,11 @@ fun insertIntoTable(operationId: Long, table: String, values: Map<String, Any>):
             if (userId != null && deviceId != null) {
                 userDevicesRepository.create(userId, deviceId)
             }
-            jsonOutput = ""
+            if (userId == null || deviceId == null) return jsonOutput.toString()
+            jsonOutput = "{\"req\": $operationId, \"data\" : { \"id\": \"${userDevicesRepository.getSeqDeviceByUserIdAndDeviceId(userId, deviceId)}\", \"type\": \"${deviceEntryData.deviceName}\" }}"
         }
     }
+    println(jsonOutput)
     return jsonOutput.toString()
 }
 

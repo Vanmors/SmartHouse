@@ -1,10 +1,8 @@
 package repository
 
 import model.*
-import org.jetbrains.exposed.sql.Op
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserDevicesRepository : Repository<UserDevices> {
@@ -67,6 +65,15 @@ class UserDevicesRepository : Repository<UserDevices> {
             } else {
                 emptyList()
             }
+        }
+    }
+
+    fun getSeqDeviceByUserIdAndDeviceId(userIdValue: Int, deviceIdValue: Int): Long? {
+        return transaction {
+            UserDevices.select {
+                (UserDevices.userId eq userIdValue) and (UserDevices.deviceId eq deviceIdValue)
+            }.map { it[UserDevices.seqDevice] }
+                .firstOrNull()
         }
     }
 
