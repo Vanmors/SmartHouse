@@ -1,7 +1,9 @@
 package repository
 
+import model.DeviceEntry
 import model.User
 import model.UserEntry
+import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
@@ -53,6 +55,12 @@ class UserRepository: Repository<UserEntry> {
                 (User.userName eq userName) and
                         (User.password eq password)
             }.firstOrNull()
+        }
+    }
+
+    fun findByCondition(condition: Op<Boolean>): List<UserEntry> {
+        return transaction {
+            UserEntry.find { condition }.toList()
         }
     }
 

@@ -1,25 +1,62 @@
-import io.lettuce.core.RedisClient
 import json.processJson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import messageBroker.startRedisListener
-import model.UserEntry
-import org.jetbrains.exposed.sql.transactions.transaction
-import repository.UserRepository
-
 
 suspend fun main(args: Array<String>) {
-
+//    val json1 = """
+//        { "req": 1, "action": "insert", "table": "user", "data": { "username": "Ilya",  "password": "rhtgbvds" } }
+//        """.trimIndent()
+//    val json2 =
+//        """{
+//        "req": 2,
+//        "action": "insert",
+//        "table": "userDevices",
+//        "data": {
+//            "username": "Ilya",
+//            "password": "rhtgbvds",
+//            "device": "teapot"
+//        }
+//    }
+//    """.trimIndent()
+//    val json3 = """{
+//        "req": 3,
+//        "action": "select",
+//        "table": "userDevices",
+//        "conditions": {
+//            "userName": "Ilya"
+//        }
+//    }""".trimIndent()
+//    val json4 = """
+//        {
+//"req": 5,
+//"action": "select",
+//"table": "userDevices",
+//"conditions": {
+//  "userName": "Ilya",
+//  "password": "123123",
+//  "id": 1
+//}
+//}
+//    """.trimIndent()
     initDatabase()
-
+//    processJson(json1)
+//    processJson(json2)
+//    selectFromTable(3, "userDevices", "John Doe")
+//    processJson(json4)
     // Запуск Redis слушателя в фоновом режиме
     val job = GlobalScope.launch {
         startRedisListener()
     }
     job.join()
 
+
+    // {
+//      "id": 1,
+//      "data": {
+//            ""
+//       }
+//        }
 
 //    while (true) {
 //        subscribe()
@@ -28,20 +65,7 @@ suspend fun main(args: Array<String>) {
     // Инициализация базы данных
 
 //
-//    val json1 = """
-//        { "action": "insert", "table": "user", "data": { "username": "Ilya",  "password": "rhtgbvds" } }
-//        """.trimIndent()
-//    val json2 =
-//        """{
-//        "action": "insert",
-//        "table": "userDevices",
-//        "data": {
-//            "username": "John Doe",
-//            "password": "cewd2wqDQWEC",
-//            "device": "water_sensor"
-//        }
-//    }
-//    """.trimIndent()
+
 //
 ////    processJson(json1)
 //    processJson(json2)

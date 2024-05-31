@@ -2,6 +2,7 @@ package repository
 
 import model.Device
 import model.DeviceEntry
+import org.jetbrains.exposed.sql.Op
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class DeviceRepository : Repository<DeviceEntry> {
@@ -43,6 +44,12 @@ class DeviceRepository : Repository<DeviceEntry> {
         return transaction {
             DeviceEntry.find { Device.name eq deviceName }
                 .firstOrNull()?.id?.value
+        }
+    }
+
+    fun findByCondition(condition: Op<Boolean>): List<DeviceEntry> {
+        return transaction {
+            DeviceEntry.find { condition }.toList()
         }
     }
 

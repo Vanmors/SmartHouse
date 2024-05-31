@@ -1,4 +1,6 @@
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.JsonNode
+import json.generateDeviceJson
+import json.generateDevicesJson
 import model.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -38,7 +40,8 @@ fun initDevices() {
     deviceRepository.create("room_lighting")
 }
 
-fun insertIntoTable(table: String, values: Map<String, Any>): String {
+fun insertIntoTable(operationId: Long, table: String, values: Map<String, Any>): String {
+    var jsonOutput: String? = null
     when (table) {
         "user" -> {
             val userEntryData = UserEntryData(values["username"] as String, values["password"] as String)
@@ -52,15 +55,11 @@ fun insertIntoTable(table: String, values: Map<String, Any>): String {
                 val id = it[User.id].value
                 val userName = it[User.userName]
                 val password = it[User.password]
-//                val userMap = mapOf(
-//                    "id" to it[User.id].value,
-//                    "username" to it[User.userName],
-//                    "password" to it[User.password]
-//                )
-                return "{\"id\": $id, \"username\": \"$userName\", \"password\": \"$password\"}"
+                jsonOutput = "{\"id\": $id, \"username\": \"$userName\", \"password\": \"$password\"}"
             }
 
         }
+
         "userDevices" -> {
             val deviceRepository = DeviceRepository()
             val userRepository = UserRepository()
@@ -76,7 +75,34 @@ fun insertIntoTable(table: String, values: Map<String, Any>): String {
             if (userId != null && deviceId != null) {
                 userDevicesRepository.create(userId, deviceId)
             }
+            jsonOutput = ""
         }
     }
-    return ""
+    return jsonOutput.toString()
 }
+
+fun selectFromTable(operationId: Long, table: String, condition: JsonNode): String {
+    val userDevicesRepository = UserDevicesRepository()
+    var jsonOutput: String? = null
+    when (table) {
+        "userDevices" -> {
+            val deviceId = condition.get("id")
+            val userName = condition.get("userName").asText()
+            if (deviceId == null) {
+                val devicesWithSeq = userDevicesRepository.getDevicesForUser(userName)
+                devicesWithSeq.forEach { device ->
+                    println("ID: ${device.device.id.value}, Name: ${device.seqDevice}")
+                }
+                jsonOutput = generateDevicesJson(operationId, devicesWithSeq)
+            } else {
+                val device = userDevicesRepository.getDeviceBySeqDevice(deviceId.asLong())
+                jsonOutput = device?.let { generateDeviceJson(operationId, it, deviceId.asLong()) }
+            }
+        }
+    }
+
+    return jsonOutput.toString()
+
+}
+
+
