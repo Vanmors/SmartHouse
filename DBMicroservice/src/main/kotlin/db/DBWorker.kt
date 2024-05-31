@@ -40,7 +40,7 @@ fun initDevices() {
     deviceRepository.create("room_lighting")
 }
 
-fun insertIntoTable(operationId: Long, table: String, values: Map<String, Any>, ): String {
+fun insertIntoTable(operationId: Long, table: String, values: Map<String, Any>): String {
     var jsonOutput: String? = null
     when (table) {
         "user" -> {
@@ -98,6 +98,14 @@ fun selectFromTable(operationId: Long, table: String, condition: JsonNode): Stri
                 val device = userDevicesRepository.getDeviceBySeqDevice(deviceId.asLong())
                 jsonOutput = device?.let { generateDeviceJson(operationId, it, deviceId.asLong()) }
             }
+        }
+
+        "user" -> {
+            val userRepository = UserRepository()
+            val userName = condition.get("username").asText()
+            val password = condition.get("password").asText()
+            val user = userRepository.findUserByNameAndPassword(userName, password)
+            jsonOutput = "{\"req\": $operationId, \"username\": \"${user?.userName}\", \"password\": \"${user?.password}\"}"
         }
     }
 

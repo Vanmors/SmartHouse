@@ -7,6 +7,17 @@ suspend fun main(args: Array<String>) {
     val json1 = """
         { "req": 1, "action": "insert", "table": "user", "data": { "username": "Ilya",  "password": "rhtgbvds" } }
         """.trimIndent()
+//    val json5 = """
+//        {
+//          "req": 123,
+//          "action": "select",
+//          "table": "user",
+//          "conditions": {
+//              "username": "Ilya",
+//              "password": "rhtgbvds"
+//          }
+//        }
+//    """.trimIndent()
 //    val json2 =
 //        """{
 //        "req": 2,
@@ -43,7 +54,7 @@ suspend fun main(args: Array<String>) {
 //    processJson(json1)
 //    processJson(json2)
 //    selectFromTable(3, "userDevices", "John Doe")
-//    processJson(json3)
+//    processJson(json5)
     // Запуск Redis слушателя в фоновом режиме
     val job = GlobalScope.launch {
         startRedisListener()

@@ -64,4 +64,11 @@ class UserRepository: Repository<UserEntry> {
         }
     }
 
+    fun findUserByNameAndPassword(username: String, password: String): UserEntry? {
+        return transaction {
+            UserEntry.find { (User.userName eq username) and (User.password eq password) }
+                .firstOrNull()
+        }
+    }
+
 }
