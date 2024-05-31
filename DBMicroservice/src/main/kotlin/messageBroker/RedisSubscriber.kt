@@ -17,9 +17,9 @@ fun startRedisListener() {
         override fun message(channel: String, message: String) {
             if (channel == requestDBChannel) {
                 println(message)
-                GlobalScope.launch {
+//                GlobalScope.launch {
                     processJson(message)
-                }
+//                }
             }
         }
     })

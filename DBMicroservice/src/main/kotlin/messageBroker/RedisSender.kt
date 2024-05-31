@@ -12,5 +12,6 @@ fun sendJsonToRedis(response: String) {
     val pubSubConnection: StatefulRedisPubSubConnection<String, String> = redisClient.connectPubSub()
 
     val async: RedisPubSubAsyncCommands<String, String> = pubSubConnection.async()
+    println(response)
     val redisFuture: RedisFuture<Long> = async.publish("responseDBChannel", response.toString())
 }

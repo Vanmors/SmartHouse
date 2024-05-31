@@ -4,9 +4,9 @@ import kotlinx.coroutines.launch
 import messageBroker.startRedisListener
 
 suspend fun main(args: Array<String>) {
-//    val json1 = """
-//        { "req": 1, "action": "insert", "table": "user", "data": { "username": "Ilya",  "password": "rhtgbvds" } }
-//        """.trimIndent()
+    val json1 = """
+        { "req": 1, "action": "insert", "table": "user", "data": { "username": "Ilya",  "password": "rhtgbvds" } }
+        """.trimIndent()
 //    val json2 =
 //        """{
 //        "req": 2,
@@ -19,14 +19,14 @@ suspend fun main(args: Array<String>) {
 //        }
 //    }
 //    """.trimIndent()
-//    val json3 = """{
-//        "req": 3,
-//        "action": "select",
-//        "table": "userDevices",
-//        "conditions": {
-//            "userName": "Ilya"
-//        }
-//    }""".trimIndent()
+    val json3 = """{
+        "req": 3,
+        "action": "select",
+        "table": "userDevices",
+        "conditions": {
+            "userName": "Ilya"
+        }
+    }""".trimIndent()
 //    val json4 = """
 //        {
 //"req": 5,
@@ -43,7 +43,7 @@ suspend fun main(args: Array<String>) {
 //    processJson(json1)
 //    processJson(json2)
 //    selectFromTable(3, "userDevices", "John Doe")
-//    processJson(json4)
+//    processJson(json3)
     // Запуск Redis слушателя в фоновом режиме
     val job = GlobalScope.launch {
         startRedisListener()

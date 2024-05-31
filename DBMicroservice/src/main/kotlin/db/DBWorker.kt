@@ -55,7 +55,7 @@ fun insertIntoTable(operationId: Long, table: String, values: Map<String, Any>):
                 val id = it[User.id].value
                 val userName = it[User.userName]
                 val password = it[User.password]
-                jsonOutput = "{\"id\": $id, \"username\": \"$userName\", \"password\": \"$password\"}"
+                jsonOutput = "{\"req\": $id, \"username\": \"$userName\", \"password\": \"$password\"}"
             }
 
         }
